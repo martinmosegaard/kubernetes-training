@@ -4,8 +4,10 @@ Kubernetes training resources.
 
 ## Vagrant
 
-Use the `Vagrantfile` to create 3 VMs for a Kubernetes cluster:
-
 ```sh
+# Download cookbooks used by Chef provisioners
+berks vendor cookbooks/
+
+# Start Vagrant VMs
 vagrant up
 ```
