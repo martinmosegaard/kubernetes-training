@@ -1,0 +1,37 @@
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.network "private_network", type: "dhcp"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpus = 2
+    vb.gui = false
+    vb.linked_clone = true
+    vb.memory = 2048
+  end
+
+  config.vm.define "k8s-master" do |master|
+    master.vm.network "private_network", ip: "192.168.50.2"
+    master.vm.provision "chef_solo" do |chef|
+      chef.add_recipe "kubernetes::master"
+    end
+  end
+
+  2.times do |n|
+    config.vm.define "k8s-worker-#{n}" do |worker|
+      worker.vm.network "private_network", ip: "192.168.50.#{n + 3}"
+      worker.vm.provision "chef_solo" do |chef|
+        chef.json = {
+          "k8s" => {
+            "master" =>  {
+              "ip": "192.168.50.2"
+            }
+          }
+        }
+        chef.add_recipe "kubernetes_wrapper::node"
+      end
+    end
+  end
+
+end
