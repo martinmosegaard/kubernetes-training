@@ -4,6 +4,8 @@ Kubernetes training resources.
 
 ## Vagrant
 
+*Note:* Chef is not used, because of https://github.com/chef-cookbooks/kubernetes/issues/20
+
 ```sh
 # Download cookbooks used by Chef provisioners
 berks vendor cookbooks/
