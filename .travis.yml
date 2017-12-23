@@ -1,0 +1,6 @@
+before_install:
+  - which rubocop
+  - which vagrant
+script:
+  - rubocop Vagrantfile
+  - vagrant validate
