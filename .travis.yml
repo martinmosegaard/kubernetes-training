@@ -1,0 +1,6 @@
+before_install:
+  - gem install rubocop
+  - which vagrant
+script:
+  - rubocop Vagrantfile
+  - vagrant validate
