@@ -1,22 +1,21 @@
-# k8s-training
+# kubernetes-training
 
 Kubernetes training resources.
 
-## Vagrant
+## Setting up a Kubernetes cluster
 
-*Note:* Chef is not used, because of https://github.com/chef-cookbooks/kubernetes/issues/20
+The `Vagrantfile` can be used to start VMs for a Kubernetes cluster:
+
+- One master, `k8s-master`
+- Two workers, `k8s-worker-0` and `k8s-worker-1`
+
+### Create and provision machines
 
 ```sh
-# Download cookbooks used by Chef provisioners
-berks vendor cookbooks/
-
-# Start Vagrant VMs
 vagrant up
 ```
 
-## Setting up cluster
-
-Master:
+### Setting up the master
 
 ```sh
 vagrant ssh k8s-master
@@ -24,8 +23,16 @@ vagrant ssh k8s-master
 sudo kubeadm init --apiserver-advertise-address 192.168.50.2
 ```
 
-Workers:
+### Setting up the workers
 
 ```sh
+vagrant ssh k8s-worker-0
+
 sudo kubeadm join <TOKEN>
+```
+
+### Destroy machines
+
+```sh
+vagrant destroy -f
 ```
