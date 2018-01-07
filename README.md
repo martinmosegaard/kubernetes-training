@@ -21,6 +21,14 @@ vagrant up
 ./cluster-up.sh
 ```
 
+### Configure kubectl for Kubernetes cluster
+
+```sh
+cp ~/.kube/config ~/.kube/config.bak
+cp config ~/.kube/
+```
+
+
 ### Destroy machines
 
 ```sh
