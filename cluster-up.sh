@@ -31,12 +31,17 @@ cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-1 -c "sudo {}"
 # copy this to ~/.kube/ and kubectl should work
 vagrant ssh k8s-master -c "sudo cat /etc/kubernetes/admin.conf" > config
 
+echo "
+### Important 
+config file created to match cluster. Please copy to ~/.kube/ folder for kubectl to work
+"
+
 # Clean up
 rm -fv kubeadm-join
 
 # Alert user about routing
-echo "This is added to each host."
 echo "
+This is added to each hosts /etc/hosts:
 192.168.50.0 lb1
 192.168.50.2 k8s-master
 192.168.50.3 k8s-worker-0
