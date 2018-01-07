@@ -6,7 +6,7 @@ rm -fv kubeadm-join
 # Initialize the master.
 # The API server address is needed because the node has many network interfaces.
 # Save the console output, because it contains commands to execute afterwards.
-vagrant ssh k8s-master -c "sudo kubeadm init --apiserver-advertise-address 192.168.50.2 > /tmp/kubeadm-init"
+vagrant ssh k8s-master -c "sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address 192.168.50.2 > /tmp/kubeadm-init"
 
 # Get the start commands to execute on the master. These are shown after "start using" and start with a blank space.
 # Then execute them.
@@ -27,5 +27,19 @@ vagrant ssh k8s-master -c "grep 'kubeadm join' /tmp/kubeadm-init" > kubeadm-join
 cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-0 -c "sudo {}"
 cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-1 -c "sudo {}"
 
+# Getting setup for kubectl on host machine
+# copy this to ~/.kube/ and kubectl should work
+vagrant ssh k8s-master -c "sudo cat /etc/kubernetes/admin.conf" > config
+
 # Clean up
 rm -fv kubeadm-join
+
+# Alert user about routing
+echo "This is added to each host."
+echo "
+192.168.50.0 lb1
+192.168.50.2 k8s-master
+192.168.50.3 k8s-worker-0
+192.168.50.4 k8s-worker-1
+
+"
