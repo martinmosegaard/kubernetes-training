@@ -14,6 +14,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "k8s-master" do |master|
     master.vm.network "private_network", ip: "192.168.50.2"
     master.vm.provision "chef_solo" do |chef|
+      # The kubernetes cookbook has been deprecated in favor of the
+      # kube cookbook;
+      # https://github.com/chef-cookbooks/kubernetes/issues/20
+      # https://supermarket.chef.io/cookbooks/kube
       chef.add_recipe "kubernetes::master"
     end
   end
