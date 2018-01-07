@@ -21,6 +21,20 @@ vagrant up
 ./cluster-up.sh
 ```
 
+### Configure kubectl for Kubernetes cluster
+
+```sh
+cp ~/.kube/config ~/.kube/config.bak
+cp config ~/.kube/
+```
+
+### Wait for all nodes to be ready
+
+```sh
+watch -n 1 kubectl get nodes
+(Ctrl + c to brake)
+```
+
 ### Destroy machines
 
 ```sh
