@@ -9,7 +9,6 @@ sudo echo "
 192.168.50.4 k8s-worker-1
 " >> /etc/hosts
 
-sysctl net.bridge.bridge-nf-call-iptables=1
 swapoff -a
 sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
