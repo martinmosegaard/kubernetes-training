@@ -10,7 +10,6 @@ sudo echo "
 " >> /etc/hosts
 
 swapoff -a
-sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 apt-get update && apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
