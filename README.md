@@ -1,6 +1,12 @@
 # kubernetes-training
 
-Kubernetes training resources.
+Create a Kubernetes cluster with Vagrant and VirtualBox.
+
+## Prerequisites
+
+- Vagrant
+- VirtualBox 5.2
+- `kubectl`
 
 ## Setting up a Kubernetes cluster
 
@@ -21,18 +27,20 @@ vagrant up
 ./cluster-up.sh
 ```
 
-### Configure kubectl for Kubernetes cluster
+### Configure local kubectl for Kubernetes cluster
 
 ```sh
-cp ~/.kube/config ~/.kube/config.bak
-cp config ~/.kube/
+cp -i config ~/.kube/
 ```
 
-### Wait for all nodes to be ready
+### Verify
 
 ```sh
-watch -n 1 kubectl get nodes
-(Ctrl + c to brake)
+$ kubectl get nodes
+NAME           STATUS     ROLES     AGE       VERSION
+k8s-master     Ready      master    48s       v1.9.1
+k8s-worker-0   NotReady   <none>    29s       v1.9.1
+k8s-worker-1   NotReady   <none>    23s       v1.9.1
 ```
 
 ### Destroy machines

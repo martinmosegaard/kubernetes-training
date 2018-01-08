@@ -10,7 +10,6 @@ Vagrant.configure("2") do |config|
     vb.gui = false
     vb.linked_clone = true
     vb.memory = 2048
-    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
   config.vm.provision "shell", path: "install-kubeadm.sh"
