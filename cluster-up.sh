@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Clean up from last time
-rm -fv kubeadm-join
+rm -fv config kubeadm-join
 
 # Initialize the master.
 # The API server address is needed because the node has many network interfaces.
@@ -15,9 +15,6 @@ vagrant ssh k8s-master -c "source /tmp/kubeadm-master-start"
 
 # Apply weave network
 # https://www.weave.works/docs/net/latest/kubernetes/kube-addon/
-# BUG: The worker nodes do not get ready and the weave pods crash
-# Maybe there are hints here:
-# https://github.com/kubernetes/kubernetes/issues/34101
 vagrant ssh k8s-master -c "kubectl apply -f \"https://cloud.weave.works/k8s/net?k8s-version=\$(kubectl version | base64 | tr -d '\n')\""
 
 # Get the join command for the workers
@@ -27,24 +24,27 @@ vagrant ssh k8s-master -c "grep 'kubeadm join' /tmp/kubeadm-init" > kubeadm-join
 cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-0 -c "sudo {}"
 cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-1 -c "sudo {}"
 
-# Getting setup for kubectl on host machine
-# copy this to ~/.kube/ and kubectl should work
+# Getting setup for kubectl on workstation
 vagrant ssh k8s-master -c "sudo cat /etc/kubernetes/admin.conf" > config
-
-echo "
-### Important 
-config file created to match cluster. Please copy to ~/.kube/ folder for kubectl to work
-"
-
-# Clean up
-rm -fv kubeadm-join
 
 # Alert user about routing
 echo "
-This is added to each hosts /etc/hosts:
-192.168.50.0 lb1
+Routing added to each hosts /etc/hosts:
 192.168.50.2 k8s-master
 192.168.50.3 k8s-worker-0
 192.168.50.4 k8s-worker-1
+"
 
+echo "
+#######################
+ Cluster configuration
+#######################
+Created kubectl config file to match cluster.
+Copy to ~/.kube/ folder:
+
+cp config ~/.kube/
+
+Then verify with:
+
+kubectl get nodes
 "

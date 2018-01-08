@@ -1,2 +1,5 @@
 .vagrant
 
+# Output files from Vagrant provisioning commands
+config
+kubeadm-join
