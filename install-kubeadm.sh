@@ -9,7 +9,14 @@ sudo echo "
 192.168.50.4 k8s-worker-1
 " >> /etc/hosts
 
+# Required by Weave networking (because of some CNI plugins):
+# https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
+sysctl net.bridge.bridge-nf-call-iptables=1
+
+## Disable swap
 swapoff -a
+# Comment out the swap partition, so swap is also disabled after reboot
+sudo sed -i.bak '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 apt-get update && apt-get install -y apt-transport-https
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
