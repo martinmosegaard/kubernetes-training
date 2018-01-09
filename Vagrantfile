@@ -18,7 +18,6 @@ Vagrant.configure("2") do |config|
   config.vm.define master_name do |master|
     master.vm.network "private_network", ip: "192.168.50.2"
     master.vm.hostname = master_name
-    master.vm.provision :shell, inline: "sed 's/127\.0\.0\.1.*.*/192\.168\.50\.2 k8s-master/' -i /etc/hosts"
   end
 
   2.times do |n|
@@ -26,7 +25,6 @@ Vagrant.configure("2") do |config|
     config.vm.define worker_name do |worker|
       worker.vm.network "private_network", ip: "192.168.50.#{n + 3}"
       worker.vm.hostname = worker_name
-      worker.vm.provision :shell, inline: "sed 's/127\.0\.0\.1.*.*/192\.168\.50\.#{n + 3} k8s-worker-#{n}/' -i /etc/hosts"
     end
   end
 end
