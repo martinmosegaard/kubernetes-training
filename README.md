@@ -39,9 +39,12 @@ cp -i config ~/.kube/
 $ kubectl get nodes
 NAME           STATUS     ROLES     AGE       VERSION
 k8s-master     Ready      master    48s       v1.9.1
-k8s-worker-0   NotReady   <none>    29s       v1.9.1
-k8s-worker-1   NotReady   <none>    23s       v1.9.1
+k8s-worker-0   Ready      <none>    29s       v1.9.1
+k8s-worker-1   Ready      <none>    23s       v1.9.1
 ```
+
+Then perform some smoke tests like using your local `kubectl` to run `nginx` as done here:
+<https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/13-smoke-test.md>
 
 ### Destroy machines
 
