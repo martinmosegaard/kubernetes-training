@@ -10,7 +10,7 @@ while being slightly more real than [Minikube](https://github.com/kubernetes/min
 
 - Vagrant
 - VirtualBox 5.2
-- `kubectl`
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 ## Setting up a Kubernetes cluster
 

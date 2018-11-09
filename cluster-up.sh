@@ -42,7 +42,7 @@ echo "
 Created kubectl config file to match cluster.
 Copy to ~/.kube/ folder:
 
-cp config ~/.kube/
+cp -i config ~/.kube/
 
 Then verify with:
 
