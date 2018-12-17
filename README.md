@@ -8,11 +8,15 @@ while being slightly more real than [Minikube](https://github.com/kubernetes/min
 
 ## Prerequisites
 
-- Vagrant
-- VirtualBox 5.2
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+Last tested with:
+
+- Vagrant 2.2.2
+- VirtualBox 5.2.22
+- [kubectl 1.12](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 
 ## Setting up a Kubernetes cluster
+
+Choose one of the OS directories.
 
 The `Vagrantfile` can be used to start VMs for a Kubernetes cluster:
 
