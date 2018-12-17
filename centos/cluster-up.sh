@@ -21,8 +21,14 @@ vagrant ssh k8s-master -c "kubectl apply -f https://raw.githubusercontent.com/co
 vagrant ssh k8s-master -c "grep 'kubeadm join' /tmp/kubeadm-init" > kubeadm-join
 
 # Execute the join command on the workers
-cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-0 -c "sudo {}"
-cat kubeadm-join | xargs -I {} vagrant ssh k8s-worker-1 -c "sudo {}"
+array=()
+while IFS= read -r line; do
+    array+=( "$line" )
+done < <( vagrant status | grep k8s-worker | grep running | awk '{print $1}' )
+for worker in "${array[@]}"; do
+    echo Joining ${worker}
+    cat kubeadm-join | xargs -I {} vagrant ssh ${worker} -c "sudo {}"
+done
 
 # Getting setup for kubectl on workstation
 vagrant ssh k8s-master -c "sudo cat /etc/kubernetes/admin.conf" > config
