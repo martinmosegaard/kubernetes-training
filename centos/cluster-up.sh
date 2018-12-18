@@ -8,6 +8,9 @@ rm -fv config kubeadm-join
 # Save the console output, because it contains commands to execute afterwards.
 vagrant ssh k8s-master -c "sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address 192.168.50.2 > /tmp/kubeadm-init"
 
+# kube-bench fixes. There must be a better way to do this.
+vagrant ssh k8s-master -c "sudo sed -i 's/- kube-apiserver/- kube-apiserver\n    - --profiling=false/' /etc/kubernetes/manifests/kube-apiserver.yaml"
+
 # Get the start commands to execute on the master. These are shown after "start using" and start with a blank space.
 # Then execute them.
 vagrant ssh k8s-master -c "grep --after 4 'start using' /tmp/kubeadm-init | grep '^ ' > /tmp/kubeadm-master-start"
